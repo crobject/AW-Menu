@@ -1,0 +1,19 @@
+﻿Build started 5/5/2015 12:48:38 PM.
+     1>Project "C:\Users\Chris\Documents\GitHub\AW-Menu\Advaned Warfare\Advaned Warfare\Advaned Warfare.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Advaned Warfare.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _DEBUG /D _XBOX /D _LIB /GF- /Gm /MTd /GS- /Gy- /fp:fast /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Yc"StdAfx.h" /Fp"C:\Users\Chris\Documents\GitHub\AW-Menu\Advaned Warfare\Advaned Warfare\Debug\Advaned Warfare.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP stdafx.cpp /callcap /FI"C:\Program Files (x86)\Microsoft Xbox 360 SDK\\include\xbox\xbox_intellisense_platform.h"
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _DEBUG /D _XBOX /D _LIB /GF- /Gm /MTd /GS- /Gy- /fp:fast /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Yu"StdAfx.h" /Fp"C:\Users\Chris\Documents\GitHub\AW-Menu\Advaned Warfare\Advaned Warfare\Debug\Advaned Warfare.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP main.cpp MenuClass.cpp /callcap /FI"C:\Program Files (x86)\Microsoft Xbox 360 SDK\\include\xbox\xbox_intellisense_platform.h"
+         MenuClass.cpp
+     1>MenuClass.cpp(1): warning C4627: '#include "MenuClass.h"': skipped when looking for precompiled header use
+                 Add directive to 'StdAfx.h' or rebuild precompiled header
+     1>MenuClass.cpp(12): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "StdAfx.h"' to your source?
+         main.cpp
+         Generating Code...
+     1>Done Building Project "C:\Users\Chris\Documents\GitHub\AW-Menu\Advaned Warfare\Advaned Warfare\Advaned Warfare.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:05.31

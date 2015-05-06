@@ -7,5 +7,10 @@
 
 #include <xtl.h>
 #include <xboxmath.h>
+#include <string>
+#include <vector>
+#include <algorithm>
 
+#include "Vector.h"
+using namespace std;
 // TODO: reference additional headers your program requires here
