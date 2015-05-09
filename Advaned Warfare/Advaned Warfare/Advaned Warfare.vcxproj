@@ -224,6 +224,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GSC.h" />
     <ClInclude Include="HUDElem.h" />
     <ClInclude Include="MenuClass.h" />
     <ClInclude Include="MenuItemClass.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GSC.cpp" />
     <ClCompile Include="HUDElem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuClass.cpp" />

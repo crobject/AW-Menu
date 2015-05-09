@@ -266,7 +266,7 @@ public:
   vec3_t() : x(0),y(0),z(0) {}
   vec3_t(float xc, float yc, float zc) : x(xc),y(yc),z(zc) { } 
   vec3_t(float (&axis)[3]) : x(axis[0]),y(axis[1]),z(axis[2]) { } 
-
+  vec3_t(float pfl[3]) : x(pfl[0]),y(pfl[0]),z(pfl[0]){ }
   //-vec3_t, invert
   vec3_t& operator- ()
     { return vec3_t(-x,-y,-z); }
@@ -296,7 +296,14 @@ public:
     --x,--y,--z;
     return result;
   }
-
+  operator float* ()
+  {
+	  return (float*)this;
+  }
+  operator const float* ()
+  {
+	  return (float*)this;
+  }
 #pragma region vec3_t input
   vec3_t& operator- (vec3_t &vec)
     { return vec3_t(x-vec.x,y-vec.y,z-vec.z); }

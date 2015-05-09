@@ -1,13 +1,20 @@
 #pragma once
 #include "stdafx.h"
+#include "GSC.h"
 class HUDElem
 {
 	int FindID(const char* Name);
 public:
 	HUDElem(int clientNum);
-	
+	HUDElem(){}
 	~HUDElem(void);
+	template <class T>
+	T get(const char* varname);
 
+	template <class T>
+	void set(const char* varname, T val);
+
+	int findId(const char* varname);
 	//functions
 	void SetWayPointIconOffScreenOnly();
 	void SecondaryArrow();
@@ -61,22 +68,8 @@ public:
 	bool GetForeGround();
 	void SetForeGround(bool on);
 	void SetArchived(bool on);
-	//properties
-	__declspec(property(get = GetX, put = SetX)) float X;
-	__declspec(property(get = GetY, put = SetY)) float Y;
-	__declspec(property(get = GetZ, put = SetZ)) float Z;
-	__declspec(property(get = GetFontScale, put = SetFontScale)) float FontScale;
-	__declspec(property(get = GetFont, put = SetFont)) const char* Font;
-	__declspec(property(get = GetAlignX, put = SetAlignX)) const char* AlignX;
-	__declspec(property(get = GetAlignY, put = SetAlignY)) const char* AlignY;
-	__declspec(property(get = GetColor, put = SetColor)) vec3_t Color;
-	__declspec(property(get = GetAlpha, put = SetAlpha)) float Alpha;
-	__declspec(property(get = GetHorzAlign, put = SetHorzAlign)) const char* HorzAlign;
-	__declspec(property(get = GetVertAlign, put = SetVertAlign)) const char* VertAlign;
-	__declspec(property(get = GetSort, put = SetSort)) float Sort;
-	__declspec(property(get = GetGlowColor, put = SetGlowColor)) vec3_t GlowColor;
-	__declspec(property(get = GetGlowAlpha, put = SetGlowAlpha)) float GlowAlpha;
-
+private:
+	int refNum;
 
 };
 HUDElem NewHudElem();

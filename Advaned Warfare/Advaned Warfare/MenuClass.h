@@ -9,13 +9,20 @@ public:
 	~MenuClass(void);
 
 	virtual void Render();
-	virtual void Scroll();
+	virtual void ScrollDown();
+	virtual float getItemDifference();
+	virtual const char* getFont();
+	virtual float getFontScale();
+	virtual float getXPosition();
+	virtual float getYPosition();
 
-	string getTitle();
-	vector<MenuItemClass> getMenuItems();
+	string& getTitle();
+	vector<MenuItemClass>& getMenuItems();
 	MenuItemClass* getSelectedItem();
 protected:
 	string m_title;
 	vector<MenuItemClass> m_menuItems;
-	MenuItemClass* m_selectedItem;
+	vector<MenuItemClass>::iterator m_selectedItem;
+	HUDElem m_scrollBar;
+	HUDElem m_background;
 };

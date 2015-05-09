@@ -1,10 +1,6 @@
 #include "HUDElem.h"
 
-int HUDElem::FindID(const char* Name)
-{
-	return 1;
-}
-HUDElem::HUDElem(int clientNum) : Entity(clientNum)
+HUDElem::HUDElem(int clientNum)
 {
 }
 
@@ -88,25 +84,25 @@ void HUDElem::SetText(const char* text)
 }
 void HUDElem::SetText(const char* text,const char* font, float fontScale)
 {
-	Font = font;
-	FontScale = fontScale;
+	SetFont(font);
+	SetFontScale(fontScale);
 	SetText(text);
 }
 void HUDElem::SetShader(const char* material, int height, int width)
 {
-	Scr_AddInt(height);
+	Scr_Push<int>(height);
 	Scr_AddInt(width);
 	Scr_AddString(material);
 	CallFunction<void>(refNum,FunctionID.Decrypt().setshader,3,1);
 }
 void HUDElem::SetPoint(const char* xPoint, const char* yPoint, const char* xRelitive,const char* yRelitive, float x, float y)
 {
-	AlignX = xPoint;
-	AlignY = yPoint;
-	HorzAlign = xRelitive;
-	VertAlign = yRelitive;
-	X = x;
-	Y = y;
+	SetAlignX(xPoint);
+	SetAlignY(yPoint);
+	SetHorzAlign(xRelitive);
+	SetVertAlign(yRelitive);
+	SetX(x);
+	SetY(y);
 }
 void HUDElem::FreeElem()
 {
@@ -198,11 +194,11 @@ void HUDElem::SetAlignY(const char * align)
 	Scr_AddString(align);
 	SetField(refNum,HUD_Fields.aligny,1);
 }
-Vector HUDElem::GetColor()
+vec3_t HUDElem::GetColor()
 {
 	return GetField<float*>(refNum,HUD_Fields.color,1);
 }
-void HUDElem::SetColor(Vector Color)
+void HUDElem::SetColor(vec3_t Color)
 {
 	Scr_AddVector(Color);
 	SetField(refNum,HUD_Fields.color,1);
@@ -223,7 +219,7 @@ void HUDElem::SetSort(float sort)
 }
 float HUDElem::GetSort()
 {
-	return GetField<float>(refNum,HUD_Fields.sort,1);
+	return get<float>("sort");
 }
 void HUDElem::SetHorzAlign(const char* align)
 {
@@ -244,11 +240,11 @@ const char* HUDElem::GetVertAlign()
 	return GetField<const char*>(refNum,HUD_Fields.vertalign,1);
 }
 
-Vector HUDElem::GetGlowColor()
+vec3_t HUDElem::GetGlowColor()
 {
 	return GetField<float*>(refNum,HUD_Fields.glowcolor,1);
 }
-void HUDElem::SetGlowColor(Vector V)
+void HUDElem::SetGlowColor(vec3_t V)
 {
 	Scr_AddVector(V);
 	SetField(refNum,HUD_Fields.glowcolor,1);
@@ -275,4 +271,35 @@ void HUDElem::SetArchived(bool on)
 {
 	Scr_AddInt(on);
 	SetField(refNum,HUD_Fields.archived,1);
+}
+int HUDElem::findId(const char* varname)
+{
+	short varCanonicalString = SL_GetString(varname);
+	HudScr_t *fields = (HudScr_t*)0x0;//add variable here
+	while(fields->Name)
+	{
+		if(*fields->Name == varCanonicalString)
+			return fields->id;
+		fields++;
+	}
+	return 0;
+}
+template <class T>
+T HUDElem::get(const char* varname)
+{
+	int id = findId(varname);
+	if(id == 0)
+		return (T)NULL;
+	return GetField<T>(refNum,id,1);
+		
+}
+
+template <class T>
+void HUDElem::set(const char* varname, T val)
+{
+	int id = findId(varname);
+	if(id == 0)
+		return;
+	Scr_Push<T>(val);
+	CallFunction<void>(refNum,id,1,1);
 }
