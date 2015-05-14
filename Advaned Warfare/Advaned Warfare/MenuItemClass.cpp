@@ -5,7 +5,12 @@ MenuItemClass::MenuItemClass(void)
 {
 }
 
-
+MenuItemClass::MenuItemClass(string name, void (*fn)(void* client), bool * toggle)
+{
+	m_name = name;
+	m_function = fn;
+	m_toggle = toggle;
+}
 MenuItemClass::~MenuItemClass(void)
 {
 
@@ -16,7 +21,9 @@ void MenuItemClass::setElem(HUDElem elem)
 }
 void MenuItemClass::call()
 {
-
+	m_function(NULL);
+	if(m_toggle)
+		*m_toggle ^= 1;
 }
 
 const string& MenuItemClass::getName()

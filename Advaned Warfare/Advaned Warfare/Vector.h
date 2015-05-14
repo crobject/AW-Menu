@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#pragma warning( push )
+#pragma warning( disable : 4172)
 class vec2_t
 {
 private: float x,y;
@@ -792,3 +794,4 @@ public:
     return (newX * newX + newY * newY + newZ * newZ + newA * newA);
   }
 };
+#pragma warning( pop )

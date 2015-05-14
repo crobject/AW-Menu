@@ -5,6 +5,7 @@ class MenuItemClass
 {
 public:
 	MenuItemClass(void);
+	MenuItemClass(string name, void (*fn)(void* client), bool * toggle = 0);
 	~MenuItemClass(void);
 
 	virtual void call();

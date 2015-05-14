@@ -5,7 +5,10 @@
 #include <vector>
 #include <map>
 #include <setjmp.h>
+#include "WeaponDef.h"
 #define DEV
+#pragma warning( disable : 4309)
+
 struct Achievment_s
 {
 	int id;
@@ -484,7 +487,7 @@ struct GameOffsets_s
 	#endif
 	GameOffsets_s Decrypt();
 };
-
+extern GameOffsets_s GameOffsets;
 struct scr_entref_t
 {
 	short entnum;
@@ -625,4 +628,17 @@ bool SetField(int clientNum,int offset, int classNum);
 template <class T>
 T GetField(int clientNum,int offset, int classNum);
 template <class T>
-void Scr_Push(T val);
+void Scr_Push(T val)
+{
+	VM_Stack* stack = Scr_Add();
+	if(sizeof(T) > 32)
+		throw exception("Scr_Push: Size greated than 32 bits!");
+	if(typeid(val) == typeid(int))
+		stack->Type = 6;
+	else if(typeid(val) == typeid(float))
+		stack->Type = 5;
+	else if(typeid(val) == typeid(float*) || typeid(val) == typeid(vec3_t))
+		stack->Type = 4;
+
+	memcpy(&stack->Data,&val,sizeof(val));
+}

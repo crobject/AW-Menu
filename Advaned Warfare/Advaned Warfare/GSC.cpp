@@ -23,7 +23,7 @@ DB_FindXAssetHeader_t DB_FindXAssetHeader;
 G_GetWeaponIndexForName_t G_GetWeaponIndexForName;
 Dvar_FindMalleableVar_t Dvar_FindMalleableVar;
 Client_VM_Stack_s Client_VM_Stack;
-_setjmp_t __setjmp = (_setjmp_t)0x8286B060;
+_setjmp_t __setjmp;
 FunctionID_s FunctionID_s::Decrypt()
 {
 		FunctionID_s tmp(*this);
@@ -315,6 +315,7 @@ bool CallFunctionMain(int clientNum,short id,int numArgs,int classnum)
 	int tParams = *cParam;
 	*cParam = numArgs;
 	scr_entref_t ref;
+	VM_Stack *oldStackPos = *pVM;
 	if(GSCMap.find(id) == GSCMap.end())
 	{
 		Script_Function_t *ScriptFunt = FindFunction(id);
@@ -327,20 +328,24 @@ bool CallFunctionMain(int clientNum,short id,int numArgs,int classnum)
 		//*(int*)0x83F05600 = 0;
 		GSCMap[id] = tFunc;
 	}
-	try
+	jmp_buf* jmpBuff = (jmp_buf*)GameOffsets.Decrypt().__setjmpVar;
+	__setjmp = (_setjmp_t)GameOffsets.Decrypt().__setjmp;
+	if(__setjmp(jmpBuff[*g_script_error_level]))
+	{
+		printf("There was an error calling %d for client %d\n",id,clientNum);
+	}
+	else
 	{
 		ref.classnum = classnum;
 		ref.entnum = clientNum;
 		GSCMap[id](ref);
 	}
-	catch(exception e)
-
-	{
-		printf("Call Function Error! %s\n",e.what());
-		success = false;
-	}
 end:
 	StoreReturnValues(*cReturnArgs);
+	if(oldStackPos != *pVM)
+	{
+		printf("Stacks don't match after call (%d - %d)\n",oldStackPos,*pVM);
+	}
 	*cParam = 0;
 	*cReturnArgs = 0;	
 	*g_script_error_level--;
@@ -429,22 +434,4 @@ float* GetField<float*>(int clientNum,int offset, int classNum)
 	float out[3];
 	Scr_GetVector(0,out);
 	return out;
-}
-template <class T>
-void Scr_Push(T val)
-{
-	VM_Stack* stack = Scr_Add();
-	switch(typeid(T))
-	{
-		case typeid(int):
-			stack->Type = 6;
-			break;
-		case typeid(float):
-			stack->Type = 5;
-			break;
-		case typeid(float*):
-			stack->Type = 4;
-			break;
-	}
-	memcpy(stack->Data,&T,sizeof(T));
 }
